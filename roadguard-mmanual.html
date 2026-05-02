@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RoadGuard · User Manual</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f4f0;
+  --white: #ffffff;
+  --surface: #fafaf7;
+  --card: #ffffff;
+  --border: #e4e2db;
+  --border-strong: #c8c4bb;
+  --accent: #1a6b3c;
+  --accent-light: #e8f5ee;
+  --accent2: #0f4c81;
+  --accent2-light: #e8f0f8;
+  --warn: #b45309;
+  --warn-light: #fef3c7;
+  --danger: #b91c1c;
+  --danger-light: #fee2e2;
+  --text: #1a1916;
+  --text-soft: #5c5a54;
+  --text-muted: #9c9a94;
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Plus Jakarta Sans', sans-serif;
+  --radius: 12px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.06);
+  --shadow-lg: 0 4px 6px rgba(0,0,0,0.07), 0 10px 40px rgba(0,0,0,0.1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  background: var(--white);
+  border-right: 1px solid var(--border);
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  padding: 1.75rem 1.5rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.logo-mark {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.35rem;
+}
+
+.logo-icon {
+  width: 32px; height: 32px;
+  background: var(--accent);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.logo-text {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+.logo-sub {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-top: 0.25rem;
+}
+
+/* search */
+.sidebar-search {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+}
+
+.search-box input {
+  border: none; background: transparent;
+  font-family: var(--sans); font-size: 0.82rem;
+  color: var(--text); width: 100%;
+  outline: none;
+}
+.search-box input::placeholder { color: var(--text-muted); }
+.search-icon { color: var(--text-muted); font-size: 0.9rem; flex-shrink: 0; }
+
+/* nav */
+.sidebar-nav { padding: 0.75rem 0; flex: 1; }
+
+.nav-section {
+  padding: 0.5rem 1.5rem 0.25rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 1.5rem;
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: var(--text-soft);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: all 0.15s;
+  cursor: pointer;
+}
+.nav-item:hover {
+  background: var(--bg);
+  color: var(--accent);
+  border-left-color: var(--accent);
+}
+.nav-item.active {
+  background: var(--accent-light);
+  color: var(--accent);
+  border-left-color: var(--accent);
+  font-weight: 600;
+}
+.nav-item .nav-icon { font-size: 1rem; flex-shrink: 0; }
+.nav-badge {
+  margin-left: auto;
+  background: var(--accent-light);
+  color: var(--accent);
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+}
+
+.sidebar-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+.sidebar-footer strong { display: block; color: var(--text-soft); margin-bottom: 0.15rem; }
+
+/* ── MAIN ── */
+.main {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+}
+
+/* top bar */
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(245,244,240,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0.85rem 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.breadcrumb {
+  display: flex; align-items: center; gap: 0.4rem;
+  font-size: 0.8rem; color: var(--text-muted);
+}
+.breadcrumb span { color: var(--text); font-weight: 500; }
+
+.topbar-right {
+  display: flex; gap: 0.75rem;
+}
+
+.topbar-btn {
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  font-family: var(--sans);
+  cursor: pointer;
+  transition: all 0.15s;
+  border: 1px solid var(--border);
+  background: var(--white);
+  color: var(--text-soft);
+}
+.topbar-btn:hover { border-color: var(--accent); color: var(--accent); }
+.topbar-btn.primary {
+  background: var(--accent); color: white; border-color: var(--accent);
+}
+.topbar-btn.primary:hover { opacity: 0.9; }
+
+/* ── CONTENT ── */
+.content { padding: 3rem; max-width: 860px; }
+
+/* hero banner */
+.page-hero {
+  background: linear-gradient(135deg, var(--accent) 0%, #145c33 100%);
+  border-radius: 16px;
+  padding: 3rem;
+  color: white;
+  margin-bottom: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+.page-hero::before {
+  content: '';
+  position: absolute; top: -40%; right: -10%;
+  width: 400px; height: 400px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  pointer-events: none;
+}
+.page-hero::after {
+  content: '';
+  position: absolute; bottom: -60%; right: 10%;
+  width: 300px; height: 300px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+  pointer-events: none;
+}
+.hero-tag {
+  display: inline-block;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 0.3rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.page-hero h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 0.75rem;
+}
+.page-hero p {
+  font-size: 0.95rem;
+  opacity: 0.82;
+  max-width: 520px;
+  line-height: 1.65;
+}
+.hero-meta {
+  display: flex; gap: 2rem; margin-top: 2rem;
+  flex-wrap: wrap;
+}
+.hero-meta-item { }
+.hero-meta-item .hm-val {
+  font-size: 1.4rem; font-weight: 800; display: block;
+}
+.hero-meta-item .hm-label {
+  font-size: 0.72rem; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.05em;
+}
+
+/* sections */
+.doc-section {
+  margin-bottom: 4rem;
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.doc-section.visible { opacity: 1; transform: translateY(0); }
+
+.section-header {
+  display: flex; align-items: center; gap: 0.85rem;
+  margin-bottom: 1.5rem; padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border);
+}
+
+.section-num {
+  width: 36px; height: 36px;
+  background: var(--accent);
+  color: white; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem; font-weight: 800;
+  flex-shrink: 0;
+  font-family: var(--mono);
+}
+
+.section-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.section-emoji { font-size: 1.5rem; }
+
+/* prose */
+p { font-size: 0.9rem; color: var(--text-soft); line-height: 1.75; margin-bottom: 1rem; }
+p:last-child { margin-bottom: 0; }
+
+/* cards */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  margin-bottom: 1rem;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.card-grid.three { grid-template-columns: 1fr 1fr 1fr; }
+
+.feature-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  transition: all 0.2s;
+}
+.feature-card:hover { border-color: var(--accent); box-shadow: var(--shadow); }
+
+.fc-icon { font-size: 1.6rem; margin-bottom: 0.6rem; display: block; }
+.fc-title {
+  font-size: 0.88rem; font-weight: 700;
+  color: var(--text); margin-bottom: 0.35rem;
+}
+.fc-desc { font-size: 0.8rem; color: var(--text-soft); line-height: 1.55; }
+
+/* steps */
+.steps { display: flex; flex-direction: column; gap: 0; margin-bottom: 1rem; }
+
+.step {
+  display: flex; gap: 1.25rem;
+  padding-bottom: 2rem; position: relative;
+}
+.step:last-child { padding-bottom: 0; }
+.step::before {
+  content: '';
+  position: absolute; left: 17px; top: 36px;
+  width: 2px; height: calc(100% - 20px);
+  background: var(--border);
+}
+.step:last-child::before { display: none; }
+
+.step-bubble {
+  flex-shrink: 0;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  font-weight: 800; font-size: 0.8rem;
+  font-family: var(--mono);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; z-index: 1;
+  box-shadow: 0 0 0 4px var(--accent-light);
+}
+
+.step-body { padding-top: 0.4rem; }
+.step-body h4 {
+  font-size: 0.92rem; font-weight: 700;
+  color: var(--text); margin-bottom: 0.3rem;
+}
+.step-body p { font-size: 0.83rem; color: var(--text-soft); margin: 0; }
+.step-note {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  margin-top: 0.5rem; padding: 0.25rem 0.75rem;
+  background: var(--accent-light); border-radius: 999px;
+  font-size: 0.75rem; font-weight: 600; color: var(--accent);
+}
+
+/* callouts */
+.callout {
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  display: flex; gap: 0.85rem;
+  margin-bottom: 1rem;
+  border: 1px solid;
+}
+.callout-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 0.1rem; }
+.callout-body { }
+.callout-body strong { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.2rem; }
+.callout-body p { font-size: 0.82rem; margin: 0; line-height: 1.55; }
+
+.callout.info { background: var(--accent2-light); border-color: rgba(15,76,129,0.2); color: var(--accent2); }
+.callout.info .callout-body p { color: var(--accent2); opacity: 0.85; }
+.callout.warn { background: var(--warn-light); border-color: rgba(180,83,9,0.2); color: var(--warn); }
+.callout.warn .callout-body p { color: var(--warn); opacity: 0.85; }
+.callout.danger { background: var(--danger-light); border-color: rgba(185,28,28,0.2); color: var(--danger); }
+.callout.danger .callout-body p { color: var(--danger); opacity: 0.85; }
+.callout.success { background: var(--accent-light); border-color: rgba(26,107,60,0.2); color: var(--accent); }
+.callout.success .callout-body p { color: var(--accent); opacity: 0.85; }
+
+/* code */
+.code-block {
+  background: #1a1916;
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+  overflow-x: auto;
+}
+.code-block pre {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: #a8ff78;
+  line-height: 1.7;
+  white-space: pre;
+}
+.code-block .comment { color: #5c7a5c; }
+.code-block .key { color: #79c0ff; }
+.code-block .val { color: #f0c070; }
+.code-block .url { color: #a8ff78; text-decoration: underline; }
+
+.code-header {
+  display: flex; align-items: center; justify-content: space-between;
+  background: #111110; border-radius: var(--radius) var(--radius) 0 0;
+  padding: 0.6rem 1rem;
+  margin-bottom: 0;
+  border-bottom: 1px solid #2a2a28;
+}
+.code-header .ch-title { font-family: var(--mono); font-size: 0.75rem; color: #5c7a5c; }
+.code-header .ch-dots { display: flex; gap: 0.35rem; }
+.code-header .ch-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+.code-with-header { margin-bottom: 1rem; border-radius: var(--radius); overflow: hidden; }
+.code-with-header .code-block { border-radius: 0 0 var(--radius) var(--radius); margin-bottom: 0; }
+
+/* table */
+.data-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 0.83rem; margin-bottom: 1rem;
+  background: var(--card); border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.data-table th {
+  background: var(--bg); padding: 0.75rem 1rem;
+  text-align: left; font-weight: 700; font-size: 0.75rem;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--text-muted); border-bottom: 1px solid var(--border);
+}
+.data-table td {
+  padding: 0.85rem 1rem; border-bottom: 1px solid var(--border);
+  color: var(--text-soft); vertical-align: top;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: var(--bg); }
+
+/* badge */
+.badge {
+  display: inline-flex; align-items: center;
+  padding: 0.15rem 0.6rem; border-radius: 999px;
+  font-size: 0.72rem; font-weight: 700;
+}
+.badge.green { background: var(--accent-light); color: var(--accent); }
+.badge.blue { background: var(--accent2-light); color: var(--accent2); }
+.badge.yellow { background: var(--warn-light); color: var(--warn); }
+.badge.red { background: var(--danger-light); color: var(--danger); }
+
+/* checklist */
+.checklist { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
+.checklist li {
+  display: flex; align-items: flex-start; gap: 0.75rem;
+  font-size: 0.85rem; color: var(--text-soft); line-height: 1.5;
+}
+.check-icon {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--accent-light); color: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; flex-shrink: 0; margin-top: 0.1rem;
+  font-weight: 700;
+}
+
+/* status indicator */
+.status-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 8px; margin-bottom: 0.5rem;
+  font-size: 0.84rem;
+}
+.status-label { font-weight: 600; color: var(--text); }
+.status-value { display: flex; align-items: center; gap: 0.4rem; color: var(--text-soft); font-size: 0.8rem; }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.status-dot.green { background: var(--accent); box-shadow: 0 0 6px var(--accent); }
+.status-dot.yellow { background: var(--warn); box-shadow: 0 0 6px var(--warn); }
+.status-dot.red { background: var(--danger); box-shadow: 0 0 6px var(--danger); }
+
+/* faq */
+.faq-item {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); margin-bottom: 0.75rem;
+  overflow: hidden; transition: border-color 0.2s;
+}
+.faq-item:hover { border-color: var(--accent); }
+
+.faq-q {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 1.25rem; cursor: pointer;
+  font-weight: 600; font-size: 0.88rem; color: var(--text);
+  user-select: none;
+}
+.faq-arrow { font-size: 0.75rem; color: var(--text-muted); transition: transform 0.25s; }
+.faq-item.open .faq-arrow { transform: rotate(180deg); }
+
+.faq-a {
+  padding: 0 1.25rem; max-height: 0; overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+.faq-item.open .faq-a {
+  max-height: 300px; padding: 0 1.25rem 1rem;
+}
+.faq-a p { margin: 0; font-size: 0.84rem; color: var(--text-soft); line-height: 1.65; }
+
+/* troubleshoot */
+.trouble-card {
+  border: 1px solid var(--border); border-radius: var(--radius);
+  overflow: hidden; margin-bottom: 1rem;
+  background: var(--card);
+}
+.trouble-header {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  background: var(--danger-light); border-bottom: 1px solid rgba(185,28,28,0.1);
+}
+.trouble-header .t-icon { font-size: 1.1rem; }
+.trouble-header h4 { font-size: 0.88rem; font-weight: 700; color: var(--danger); }
+.trouble-body { padding: 1.25rem; }
+.trouble-body p { font-size: 0.82rem; color: var(--text-soft); margin-bottom: 0.75rem; }
+.trouble-body ol { padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.4rem; }
+.trouble-body ol li { font-size: 0.82rem; color: var(--text-soft); line-height: 1.55; }
+.trouble-body ol li strong { color: var(--text); }
+
+/* policy */
+.policy-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+.policy-card h3 {
+  font-size: 0.95rem; font-weight: 700; margin-bottom: 0.75rem;
+  color: var(--text); display: flex; align-items: center; gap: 0.5rem;
+}
+.policy-card ul { padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.policy-card ul li { font-size: 0.83rem; color: var(--text-soft); line-height: 1.55; }
+.policy-card ul li strong { color: var(--text); }
+
+/* divider */
+.divider { height: 1px; background: var(--border); margin: 2rem 0; }
+
+/* pill */
+.pill {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px; font-size: 0.75rem; font-weight: 600;
+  border: 1px solid;
+}
+.pill.green { background: var(--accent-light); color: var(--accent); border-color: rgba(26,107,60,0.2); }
+.pill.blue { background: var(--accent2-light); color: var(--accent2); border-color: rgba(15,76,129,0.2); }
+
+/* quick nav pills */
+.quick-nav {
+  display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem;
+}
+.qn-pill {
+  padding: 0.4rem 0.85rem;
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 999px; font-size: 0.78rem; font-weight: 600;
+  color: var(--text-soft); cursor: pointer;
+  text-decoration: none; transition: all 0.15s;
+}
+.qn-pill:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+
+/* progress indicator */
+.progress-bar-wrap { margin-bottom: 1rem; }
+.progress-label { display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 0.35rem; font-weight: 600; color: var(--text-soft); }
+.progress-track { height: 8px; background: var(--border); border-radius: 999px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 999px; background: var(--accent); }
+
+/* responsive */
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .content { padding: 1.5rem; }
+  .topbar { padding: 0.75rem 1.5rem; }
+  .card-grid, .card-grid.three { grid-template-columns: 1fr; }
+  .page-hero { padding: 2rem; }
+  .page-hero h1 { font-size: 1.6rem; }
+}
+
+/* animations */
+@keyframes fadeIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+.page-hero { animation: fadeIn 0.6s ease; }
+
+/* print */
+@media print {
+  .sidebar, .topbar { display: none; }
+  .main { overflow: visible; }
+  .content { padding: 0; max-width: 100%; }
+  .doc-section { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <div class="logo-mark">
+      <div class="logo-icon">🛣️</div>
+      <span class="logo-text">RoadGuard·JO</span>
+    </div>
+    <div class="logo-sub">User Manual — v1.0</div>
+  </div>
+
+  <div class="sidebar-search">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="Search the manual..." id="searchInput" oninput="filterNav(this.value)">
+    </div>
+  </div>
+
+  <nav class="sidebar-nav" id="sidebarNav">
+    <div class="nav-section">Getting Started</div>
+    <a class="nav-item active" href="#functions" onclick="setActive(this)">
+      <span class="nav-icon">🚛</span> Project Functions
+    </a>
+    <a class="nav-item" href="#operation" onclick="setActive(this)">
+      <span class="nav-icon">🕹️</span> How to Operate
+    </a>
+    <a class="nav-item" href="#installation" onclick="setActive(this)">
+      <span class="nav-icon">⚙️</span> Installation & Setup
+    </a>
+
+    <div class="nav-section">IoT & Monitoring</div>
+    <a class="nav-item" href="#iot" onclick="setActive(this)">
+      <span class="nav-icon">📡</span> IoT Server & Dashboard
+      <span class="nav-badge">Live</span>
+    </a>
+    <a class="nav-item" href="#verify" onclick="setActive(this)">
+      <span class="nav-icon">✅</span> Verification & Health
+    </a>
+
+    <div class="nav-section">Support</div>
+    <a class="nav-item" href="#troubleshoot" onclick="setActive(this)">
+      <span class="nav-icon">🔧</span> Troubleshooting Guide
+    </a>
+    <a class="nav-item" href="#faq" onclick="setActive(this)">
+      <span class="nav-icon">💬</span> FAQ
+    </a>
+    <a class="nav-item" href="#policies" onclick="setActive(this)">
+      <span class="nav-icon">📋</span> Policies & Guidelines
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <strong>RoadGuard IoT System</strong>
+    Jordan Infrastructure Project · 2025<br>
+    For support: roadguard@ju.edu.jo
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="breadcrumb">
+      <span style="color:var(--text-muted)">RoadGuard</span>
+      <span style="color:var(--text-muted)">›</span>
+      <span>User Manual</span>
+    </div>
+    <div class="topbar-right">
+      <button class="topbar-btn" onclick="window.print()">🖨️ Print</button>
+      <button class="topbar-btn primary" onclick="document.getElementById('iot').scrollIntoView({behavior:'smooth'})">View Dashboard →</button>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- HERO -->
+    <div class="page-hero">
+      <div class="hero-tag">📖 Official User Manual</div>
+      <h1>RoadGuard IoT Truck<br>Complete User Guide</h1>
+      <p>Everything you need to deploy, operate, monitor, and maintain the autonomous pothole detection and water leak repair system — from first boot to full operation.</p>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="hm-val">v1.0</span>
+          <span class="hm-label">Current Version</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hm-val">8</span>
+          <span class="hm-label">Sections</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hm-val">2025</span>
+          <span class="hm-label">Last Updated</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUICK NAV -->
+    <div class="quick-nav">
+      <a class="qn-pill" href="#functions">🚛 Functions</a>
+      <a class="qn-pill" href="#operation">🕹️ Operation</a>
+      <a class="qn-pill" href="#installation">⚙️ Setup</a>
+      <a class="qn-pill" href="#iot">📡 IoT Server</a>
+      <a class="qn-pill" href="#verify">✅ Verification</a>
+      <a class="qn-pill" href="#troubleshoot">🔧 Troubleshoot</a>
+      <a class="qn-pill" href="#faq">💬 FAQ</a>
+      <a class="qn-pill" href="#policies">📋 Policies</a>
+    </div>
+
+    <!-- ── SECTION 1: FUNCTIONS ── -->
+    <section class="doc-section" id="functions">
+      <div class="section-header">
+        <div class="section-num">01</div>
+        <h2 class="section-title">Project Functions & Purpose</h2>
+        <span class="section-emoji">🚛</span>
+      </div>
+
+      <p>RoadGuard is an autonomous IoT-based truck designed to solve two of Jordan's most critical road infrastructure problems: <strong>potholes</strong> and <strong>underground water pipe leaks</strong>. The system operates without continuous human intervention — detecting faults, generating repair reports, requesting institutional approval, and executing repairs automatically.</p>
+
+      <div class="callout info">
+        <span class="callout-icon">ℹ️</span>
+        <div class="callout-body">
+          <strong>Who is this system for?</strong>
+          <p>Municipalities, the Ministry of Public Works, and road maintenance authorities in Jordan. Operators manage the system through the RoadGuard dashboard without needing to be physically present with the truck.</p>
+        </div>
+      </div>
+
+      <div class="card-grid">
+        <div class="feature-card">
+          <span class="fc-icon">🔬</span>
+          <div class="fc-title">Pothole Detection</div>
+          <div class="fc-desc">Uses ultrasonic sensors and a mounted camera to scan road surfaces in real time, identifying potholes, cracks, and surface deformations with ≥90% accuracy.</div>
+        </div>
+        <div class="feature-card">
+          <span class="fc-icon">💧</span>
+          <div class="fc-title">Water Leak Detection</div>
+          <div class="fc-desc">Moisture and temperature sensors detect abnormal surface humidity patterns that indicate underground pipe leaks before they cause major road damage.</div>
+        </div>
+        <div class="feature-card">
+          <span class="fc-icon">📋</span>
+          <div class="fc-title">Auto Report Generation</div>
+          <div class="fc-desc">Every detected fault is automatically documented with GPS coordinates, severity rating, required materials, and cost estimate — sent instantly to the dashboard.</div>
+        </div>
+        <div class="feature-card">
+          <span class="fc-icon">✅</span>
+          <div class="fc-title">Approval Workflow</div>
+          <div class="fc-desc">Institutions review and approve repair reports on the dashboard. Once approved, the truck navigates autonomously to the location and performs the repair.</div>
+        </div>
+        <div class="feature-card">
+          <span class="fc-icon">🛠️</span>
+          <div class="fc-title">Autonomous Repair</div>
+          <div class="fc-desc">The truck dispenses cold-mix asphalt into potholes with precision servo control, performing quick repairs that prevent recurring damage.</div>
+        </div>
+        <div class="feature-card">
+          <span class="fc-icon">📊</span>
+          <div class="fc-title">Live Monitoring Dashboard</div>
+          <div class="fc-desc">A cloud-connected dashboard shows real-time truck location, fault map, repair status, battery level, and sensor health — accessible from any device.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p style="font-weight:700;font-size:0.88rem;margin-bottom:0.75rem;color:var(--text)">📐 Technical Specifications at a Glance</p>
+        <table class="data-table">
+          <thead>
+            <tr><th>Parameter</th><th>Value</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Detection Accuracy</td><td>≥ 90%</td><td><span class="badge green">Target</span></td></tr>
+            <tr><td>Response Time</td><td>≤ 0.5 seconds</td><td><span class="badge green">Target</span></td></tr>
+            <tr><td>Communication Protocol</td><td>MQTT / HTTPS over 4G</td><td><span class="badge blue">Active</span></td></tr>
+            <tr><td>GPS Accuracy</td><td>±2 meters</td><td><span class="badge blue">Active</span></td></tr>
+            <tr><td>Repair Material</td><td>Cold-Mix Asphalt</td><td><span class="badge green">Loaded</span></td></tr>
+            <tr><td>Environmental Rating</td><td>IP65 (waterproof, dustproof)</td><td><span class="badge blue">Certified</span></td></tr>
+            <tr><td>Battery Runtime</td><td>~6 hours per charge</td><td><span class="badge green">Nominal</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── SECTION 2: OPERATION ── -->
+    <section class="doc-section" id="operation">
+      <div class="section-header">
+        <div class="section-num">02</div>
+        <h2 class="section-title">How to Operate the Truck</h2>
+        <span class="section-emoji">🕹️</span>
+      </div>
+
+      <p>The truck operates in two modes: <strong>Autonomous Mode</strong> (recommended) and <strong>Manual Override Mode</strong>. This section covers both. Always follow the pre-operation checklist before deployment.</p>
+
+      <div class="callout warn">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <strong>Before you begin</strong>
+          <p>Always complete the Pre-Operation Checklist before deploying the truck on any road. Skipping this may result in system errors or unsafe operation.</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:1.5rem">
+        <p style="font-weight:700;font-size:0.88rem;margin-bottom:1rem;color:var(--text)">✅ Pre-Operation Checklist</p>
+        <ul class="checklist">
+          <li><div class="check-icon">✓</div> Battery level is above 30% (check LED indicator or dashboard)</li>
+          <li><div class="check-icon">✓</div> Asphalt reservoir is filled (minimum 50% for deployment)</li>
+          <li><div class="check-icon">✓</div> All sensors show green status in the dashboard</li>
+          <li><div class="check-icon">✓</div> GPS signal is acquired (shown by solid blue LED)</li>
+          <li><div class="check-icon">✓</div> 4G/Wi-Fi connection is active and dashboard is reachable</li>
+          <li><div class="check-icon">✓</div> Camera lens is clean and unobstructed</li>
+          <li><div class="check-icon">✓</div> Emergency stop button has been tested</li>
+          <li><div class="check-icon">✓</div> Target patrol route is defined in the dashboard</li>
+        </ul>
+      </div>
+
+      <p style="font-weight:700;font-size:0.95rem;color:var(--text);margin-bottom:1rem">🤖 Autonomous Mode (Recommended)</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-bubble">1</div>
+          <div class="step-body">
+            <h4>Power On the System</h4>
+            <p>Press and hold the green power button on the truck's control panel for 3 seconds. Wait for the startup sequence: all LEDs will flash once, then the status LED will turn solid green, indicating the system is ready.</p>
+            <span class="step-note">⏱ Startup takes approximately 45 seconds</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-bubble">2</div>
+          <div class="step-body">
+            <h4>Open the Dashboard</h4>
+            <p>On any browser, navigate to your institution's RoadGuard dashboard URL. Log in with your authorized credentials. Confirm the truck appears as "Online" in the Fleet panel.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-bubble">3</div>
+          <div class="step-body">
+            <h4>Define the Patrol Route</h4>
+            <p>On the Live Map, click "New Route" and draw the road segment you want the truck to patrol. You can also upload a predefined route file (.JSON format). Set the patrol speed (default: 5 km/h).</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-bubble">4</div>
+          <div class="step-body">
+            <h4>Start Autonomous Patrol</h4>
+            <p>Click the "Start Patrol" button in the dashboard. The truck will autonomously navigate the route, scanning every meter of road surface. Detected faults appear instantly on the live map as color-coded markers.</p>
+            <span class="step-note">🔴 Red = Pothole &nbsp;&nbsp; 🔵 Blue = Water Leak &nbsp;&nbsp; 🟢 Green = Repaired</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-bubble">5</div>
+          <div class="step-body">
+            <h4>Review & Approve Repair Reports</h4>
+            <p>When a fault is detected, a repair report is automatically generated and appears in the "Pending Approval" queue. Review the details and click "Approve" to authorize the truck to perform the repair.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-bubble">6</div>
+          <div class="step-body">
+            <h4>Monitor Repair Execution</h4>
+            <p>After approval, the truck navigates to the fault location and performs the repair. Monitor progress in real time on the dashboard. A completion notification is sent when the repair is verified.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <p style="font-weight:700;font-size:0.95rem;color:var(--text);margin-bottom:1rem">🕹️ Manual Override Mode</p>
+      <div class="card">
+        <p>Manual override is available for testing, repositioning, or emergency situations. Use the handheld remote controller included in the kit, or switch to Manual Mode in the dashboard.</p>
+        <table class="data-table" style="margin-top:1rem">
+          <thead><tr><th>Control</th><th>Action</th><th>Dashboard Button</th></tr></thead>
+          <tbody>
+            <tr><td>Left joystick</td><td>Move forward / backward</td><td>"Manual Drive"</td></tr>
+            <tr><td>Right joystick</td><td>Steer left / right</td><td>Direction arrows</td></tr>
+            <tr><td>Red button (remote)</td><td>Emergency stop</td><td>"Emergency Stop" (red)</td></tr>
+            <tr><td>Green button (remote)</td><td>Resume autonomous mode</td><td>"Resume Patrol"</td></tr>
+            <tr><td>Trigger (remote)</td><td>Manually dispense repair material</td><td>"Dispense" button</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── SECTION 3: INSTALLATION ── -->
+    <section class="doc-section" id="installation">
+      <div class="section-header">
+        <div class="section-num">03</div>
+        <h2 class="section-title">Installation & Setup</h2>
+        <span class="section-emoji">⚙️</span>
+      </div>
+
+      <p>This section covers the complete installation process — from unboxing the hardware to connecting the system and uploading the firmware for the first time.</p>
+
+      <div class="callout success">
+        <span class="callout-icon">✅</span>
+        <div class="callout-body">
+          <strong>What's in the box</strong>
+          <p>RoadGuard Truck Unit, handheld remote controller, USB-C charging cable, 4G SIM card (pre-configured), cold-mix asphalt starter pack (2 kg), quick-start card, and this user manual.</p>
+        </div>
+      </div>
+
+      <p style="font-weight:700;font-size:0.95rem;color:var(--text);margin-bottom:1rem">🔧 Hardware Setup</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-bubble">1</div>
+          <div class="step-body">
+            <h4>Unbox & Inspect</h4>
+            <p>Remove the truck carefully from its packaging. Inspect all sensors, the camera module, and the chassis for any shipping damage. Ensure the ultrasonic sensors (front, left, right) are properly mounted and unobstructed.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-bubble">2</div>
+          <div class="step-body">
+            <h4>Insert the SIM Card</h4>
+            <p>Open the communication module panel on the rear-left side of the truck. Insert the pre-configured 4G SIM card into the slot until it clicks. Close the panel securely to maintain IP65 water resistance.</p>
+            <span class="step-note">📌 The SIM supports Zain JO, Orange JO, and Umniah networks</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-bubble">3</div>
+          <div class="step-body">
+            <h4>Charge the Battery</h4>
+            <p>Connect the USB-C cable to the charging port (bottom-right panel). Charge until the battery LED turns solid green — approximately 3–4 hours for a full charge. Do not operate with battery below 15%.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-bubble">4</div>
+          <div class="step-body">
+            <h4>Fill the Asphalt Reservoir</h4>
+            <p>Open the top access panel and locate the asphalt reservoir. Pour cold-mix asphalt material into the reservoir until it reaches the MAX line indicator. Close and seal the panel. Do not overfill.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-bubble">5</div>
+          <div class="step-body">
+            <h4>Upload Firmware (First Time Only)</h4>
+            <p>Connect the truck to your computer via USB-C. Open the RoadGuard Setup Tool (downloadable from the dashboard). Click "Flash Firmware" and wait for the process to complete. The truck will restart automatically.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <p style="font-weight:700;font-size:0.95rem;color:var(--text);margin-bottom:1rem">🌐 Software & Dashboard Setup</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-bubble">1</div>
+          <div class="step-body">
+            <h4>Create Your Institution Account</h4>
+            <p>Contact your system administrator or email roadguard@ju.edu.jo to create your institution account. You will receive login credentials by email within 24 hours.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-bubble">2</div>
+          <div class="step-body">
+            <h4>Register Your Truck</h4>
+            <p>Log into the dashboard, go to Settings → Fleet Management → Add Truck. Enter the Truck ID printed on the bottom of the unit (format: RG-XXXX). The truck will appear in your fleet within 2 minutes of powering on.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-bubble">3</div>
+          <div class="step-body">
+            <h4>Configure Alert Preferences</h4>
+            <p>Go to Settings → Notifications. Set up SMS or email alerts for critical fault detections, low battery warnings, and repair completion notifications. Add all relevant staff members.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-bubble">4</div>
+          <div class="step-body">
+            <h4>Run the Calibration Routine</h4>
+            <p>Place the truck on a flat, obstruction-free surface. In the dashboard, go to Fleet → [Your Truck] → Calibrate. Follow the on-screen instructions. This calibrates all sensors for accurate local readings. Repeat this every 30 days.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <strong>Important: First Deployment Safety Check</strong>
+          <p>Before the first outdoor deployment, run the truck in a controlled area (e.g., a parking lot) for at least 10 minutes in Manual Mode to verify all motors, sensors, and communication channels are functioning correctly.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SECTION 4: IOT SERVER ── -->
+    <section class="doc-section" id="iot">
+      <div class="section-header">
+        <div class="section-num">04</div>
+        <h2 class="section-title">Connecting to the IoT Server & Dashboard</h2>
+        <span class="section-emoji">📡</span>
+      </div>
+
+      <p>The RoadGuard IoT system uses a cloud-based architecture. The truck communicates with the MQTT broker over 4G, which then syncs with the web dashboard. This section explains how to connect, configure, and interpret the live data stream.</p>
+
+      <div class="card-grid">
+        <div class="feature-card">
+          <span class="fc-icon">🔐</span>
+          <div class="fc-title">Access the Dashboard</div>
+          <div class="fc-desc">Open your browser and navigate to your institution's RoadGuard URL. Login credentials are provided by your system administrator. Use Chrome or Firefox for best compatibility.</div>
+        </div>
+        <div class="feature-card">
+          <span class="fc-icon">📶</span>
+          <div class="fc-title">Connection Requirements</div>
+          <div class="fc-desc">The truck requires 4G signal to communicate. The dashboard operator needs only a standard internet connection. Minimum: 1 Mbps upload for real-time map updates.</div>
+        </div>
+      </div>
+
+      <p style="font-weight:700;font-size:0.95rem;color:var(--text);margin-bottom:0.75rem">🔌 MQTT Connection Settings</p>
+      <div class="code-with-header">
+        <div class="code-header">
+          <div class="ch-dots">
+            <div class="ch-dot" style="background:#ef4444"></div>
+            <div class="ch-dot" style="background:#f59e0b"></div>
+            <div class="ch-dot" style="background:#22c55e"></div>
+          </div>
+          <span class="ch-title">mqtt-config.json</span>
+        </div>
+        <div class="code-block">
+          <pre><span class="comment">// RoadGuard MQTT Broker Configuration</span>
+{
+  <span class="key">"broker_url"</span>: <span class="val">"mqtt.roadguard-jo.cloud"</span>,
+  <span class="key">"port"</span>: <span class="val">8883</span>,  <span class="comment">// TLS-secured port</span>
+  <span class="key">"protocol"</span>: <span class="val">"mqtts"</span>,  <span class="comment">// Always use secure connection</span>
+  <span class="key">"client_id"</span>: <span class="val">"RG-[YOUR-TRUCK-ID]"</span>,
+  <span class="key">"topics"</span>: {
+    <span class="key">"faults"</span>: <span class="val">"roadguard/faults/detect"</span>,
+    <span class="key">"location"</span>: <span class="val">"roadguard/truck/gps"</span>,
+    <span class="key">"status"</span>: <span class="val">"roadguard/truck/status"</span>,
+    <span class="key">"repairs"</span>: <span class="val">"roadguard/repairs/complete"</span>
+  },
+  <span class="key">"keep_alive"</span>: <span class="val">60</span>,  <span class="comment">// seconds</span>
+  <span class="key">"qos"</span>: <span class="val">1</span>  <span class="comment">// At-least-once delivery guaranteed</span>
+}</pre>
+        </div>
+      </div>
+
+      <p style="font-weight:700;font-size:0.95rem;color:var(--text);margin-bottom:0.75rem">📊 Understanding the Live Dashboard</p>
+      <div class="card">
+        <table class="data-table">
+          <thead><tr><th>Dashboard Panel</th><th>What It Shows</th><th>Update Frequency</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Live Map</strong></td><td>Real-time truck position, all detected faults, repaired locations</td><td>Every 5 seconds</td></tr>
+            <tr><td><strong>Fault Feed</strong></td><td>Stream of newly detected potholes and water leaks with details</td><td>Instant</td></tr>
+            <tr><td><strong>Reports Queue</strong></td><td>Pending repair reports awaiting institutional approval</td><td>Instant</td></tr>
+            <tr><td><strong>Fleet Status</strong></td><td>Battery level, speed, sensor health, material level, GPS signal</td><td>Every 10 seconds</td></tr>
+            <tr><td><strong>Analytics</strong></td><td>Historical repair data, cost summaries, coverage statistics</td><td>Daily summary</td></tr>
+            <tr><td><strong>Alerts Panel</strong></td><td>Critical notifications: low battery, sensor failure, connection loss</td><td>Instant</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout info">
+        <span class="callout-icon">📍</span>
+        <div class="callout-body">
+          <strong>Map Marker Guide</strong>
+          <p>🔴 Red pulsing = Active pothole detected · 🔵 Blue pulsing = Water leak detected · 🟡 Yellow = Pending repair approval · 🟢 Green = Successfully repaired and verified · 🚛 Truck icon = Current truck position</p>
+        </div>
+      </div>
+
+      <p style="font-weight:700;font-size:0.95rem;color:var(--text);margin-bottom:0.75rem">📥 Receiving & Approving Repair Reports</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-bubble">1</div>
+          <div class="step-body">
+            <h4>Receive Notification</h4>
+            <p>When the truck detects a fault, you receive an instant dashboard notification and optionally an SMS/email alert (if configured). The report appears in the "Pending Approval" queue.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-bubble">2</div>
+          <div class="step-body">
+            <h4>Review the Report</h4>
+            <p>Click the report to view: fault location on map, fault type (pothole/water leak), measured depth, recommended materials, estimated cost in JOD, and severity classification (Low/Medium/High/Critical).</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-bubble">3</div>
+          <div class="step-body">
+            <h4>Make a Decision</h4>
+            <p>Choose one of: <strong>Approve</strong> (truck proceeds to repair immediately), <strong>Schedule</strong> (set a date/time for repair), or <strong>Reject with reason</strong> (logged for audit). Your decision is time-stamped.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-bubble">4</div>
+          <div class="step-body">
+            <h4>Track Completion</h4>
+            <p>After approval, track repair progress in real time. When complete, the truck re-scans the location. A "Repair Verified" status is assigned and the map marker turns green. You receive a final completion report.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SECTION 5: VERIFICATION ── -->
+    <section class="doc-section" id="verify">
+      <div class="section-header">
+        <div class="section-num">05</div>
+        <h2 class="section-title">Verifying System Health</h2>
+        <span class="section-emoji">✅</span>
+      </div>
+
+      <p>Use the following checks to confirm everything is operating correctly — before deployment, during operation, and after a patrol session.</p>
+
+      <p style="font-weight:700;font-size:0.95rem;color:var(--text);margin-bottom:0.75rem">🟢 System Status Indicators (LED Guide)</p>
+      <div class="card" style="margin-bottom:1.5rem">
+        <table class="data-table">
+          <thead><tr><th>LED Color / Pattern</th><th>Meaning</th><th>Action Required</th></tr></thead>
+          <tbody>
+            <tr><td><span class="badge green">Solid Green</span></td><td>System fully operational</td><td>None — proceed normally</td></tr>
+            <tr><td><span class="badge blue">Solid Blue</span></td><td>GPS signal acquired</td><td>None</td></tr>
+            <tr><td><span class="badge blue">Blinking Blue</span></td><td>Searching for GPS signal</td><td>Move to open area, wait 60 sec</td></tr>
+            <tr><td><span class="badge yellow">Solid Yellow</span></td><td>Battery below 30%</td><td>Plan to return for charging soon</td></tr>
+            <tr><td><span class="badge yellow">Fast Blink Yellow</span></td><td>Battery below 15%</td><td>Truck will auto-return. Charge immediately.</td></tr>
+            <tr><td><span class="badge red">Solid Red</span></td><td>Critical error or sensor failure</td><td>Check dashboard → run diagnostics</td></tr>
+            <tr><td><span class="badge red">Blinking Red</span></td><td>Communication lost</td><td>Check SIM card, 4G signal strength</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p style="font-weight:700;font-size:0.95rem;color:var(--text);margin-bottom:0.75rem">📊 Dashboard Health Indicators</p>
+      <div class="status-row">
+        <span class="status-label">🔬 Ultrasonic Sensors</span>
+        <span class="status-value"><span class="status-dot green"></span> Operational — Range: 2–400 cm</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">📷 Camera Module</span>
+        <span class="status-value"><span class="status-dot green"></span> Active — 1080p feed live</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">💧 Moisture Sensor</span>
+        <span class="status-value"><span class="status-dot green"></span> Calibrated — Baseline set</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">📡 4G Connection</span>
+        <span class="status-value"><span class="status-dot green"></span> Connected — Signal: Strong</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">📍 GPS Module</span>
+        <span class="status-value"><span class="status-dot green"></span> Lock acquired — ±2m accuracy</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">🔋 Battery</span>
+        <span class="status-value"><span class="status-dot yellow"></span> 73% — ~4.4 hours remaining</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">🛠️ Asphalt Reservoir</span>
+        <span class="status-value"><span class="status-dot green"></span> 68% — Sufficient for patrol</span>
+      </div>
+
+      <div style="margin-top:1.5rem">
+        <p style="font-weight:700;font-size:0.95rem;color:var(--text);margin-bottom:0.75rem">📈 Running a System Diagnostic</p>
+        <div class="steps">
+          <div class="step">
+            <div class="step-bubble">1</div>
+            <div class="step-body">
+              <h4>Open System Diagnostics</h4>
+              <p>In the dashboard, go to Fleet → [Your Truck] → Diagnostics → Run Full Check.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-bubble">2</div>
+            <div class="step-body">
+              <h4>Review Results</h4>
+              <p>Each subsystem is tested and reported as PASS / WARN / FAIL. All items should show PASS for safe deployment. WARN items should be addressed within 48 hours. FAIL items must be resolved before operation.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-bubble">3</div>
+            <div class="step-body">
+              <h4>Export Diagnostic Report</h4>
+              <p>Click "Download Report" to save a PDF of the diagnostic results. Keep this on file for maintenance records and institutional compliance.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout success">
+        <span class="callout-icon">✅</span>
+        <div class="callout-body">
+          <strong>Best Practice: Weekly Verification</strong>
+          <p>Run a full diagnostic check every 7 days even if no issues are reported. Clean all sensor surfaces monthly. Recalibrate sensors every 30 days for optimal accuracy.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SECTION 6: TROUBLESHOOTING ── -->
+    <section class="doc-section" id="troubleshoot">
+      <div class="section-header">
+        <div class="section-num">06</div>
+        <h2 class="section-title">Troubleshooting Guide</h2>
+        <span class="section-emoji">🔧</span>
+      </div>
+
+      <p>Use this guide to diagnose and resolve the most common issues encountered during operation. If the problem persists after following these steps, contact technical support.</p>
+
+      <div class="trouble-card">
+        <div class="trouble-header">
+          <span class="t-icon">🔴</span>
+          <h4>Truck is not appearing in the dashboard</h4>
+        </div>
+        <div class="trouble-body">
+          <p><strong>Possible causes:</strong> SIM card not properly inserted, 4G signal too weak, or truck not powered on correctly.</p>
+          <ol>
+            <li>Confirm the truck is <strong>powered on</strong> — status LED should be solid green.</li>
+            <li>Check the <strong>SIM card</strong> is properly inserted and the panel is sealed.</li>
+            <li>Verify <strong>4G signal</strong> — blinking red LED indicates no connection. Move to an open area.</li>
+            <li>In the dashboard, go to Fleet → Refresh. Wait 2 minutes after power-on for first connection.</li>
+            <li>If still offline, go to Settings → Truck ID → Re-register and enter the truck ID again.</li>
+            <li>If the problem continues, <strong>restart the truck</strong> by holding the power button for 8 seconds (hard reset).</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="trouble-card">
+        <div class="trouble-header">
+          <span class="t-icon">🔴</span>
+          <h4>Sensors showing incorrect or no readings</h4>
+        </div>
+        <div class="trouble-body">
+          <p><strong>Possible causes:</strong> Sensor lens is dirty, calibration has drifted, or physical damage to the sensor.</p>
+          <ol>
+            <li><strong>Clean all sensor surfaces</strong> with a dry microfiber cloth — especially the ultrasonic sensors and camera lens.</li>
+            <li>Check for <strong>physical obstructions</strong> in front of the sensors (mud, debris).</li>
+            <li>Run <strong>sensor recalibration</strong>: Dashboard → Fleet → Calibrate → Sensors Only.</li>
+            <li>Inspect sensor mounting screws — loose mounting causes vibration errors.</li>
+            <li>Check the <strong>diagnostic report</strong> — if a sensor is marked FAIL, it may need replacement.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="trouble-card">
+        <div class="trouble-header">
+          <span class="t-icon">🔴</span>
+          <h4>Repair material not dispensing</h4>
+        </div>
+        <div class="trouble-body">
+          <p><strong>Possible causes:</strong> Reservoir is empty, nozzle is clogged, or servo motor is not responding.</p>
+          <ol>
+            <li>Check the <strong>asphalt reservoir level</strong> — open the top panel and visually confirm material is present.</li>
+            <li>Inspect the <strong>dispensing nozzle</strong> for dried asphalt blockage. Use warm water to clear if needed.</li>
+            <li>In the dashboard, go to Truck → Manual Controls → <strong>Test Dispense</strong>. Listen for the servo motor sound.</li>
+            <li>If the servo is silent, check the <strong>motor connection</strong> inside the control panel (requires technical access).</li>
+            <li>Restart the truck and retry. If the issue persists, contact technical support.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="trouble-card">
+        <div class="trouble-header">
+          <span class="t-icon">🔴</span>
+          <h4>GPS location is inaccurate or not updating</h4>
+        </div>
+        <div class="trouble-body">
+          <p><strong>Possible causes:</strong> GPS module still acquiring signal, interference from nearby structures, or firmware issue.</p>
+          <ol>
+            <li>Move the truck to an <strong>open outdoor area</strong> away from tall buildings — GPS needs clear sky view.</li>
+            <li>Wait <strong>60–90 seconds</strong> after powering on for the GPS to acquire a stable signal (blue LED solid).</li>
+            <li>Check that the GPS antenna (small black wire on top of the truck) is <strong>not bent or disconnected</strong>.</li>
+            <li>In the dashboard, check the "Satellites Connected" counter — minimum 4 satellites needed for accurate location.</li>
+            <li>If still inaccurate after 5 minutes, perform a GPS reset: Diagnostics → GPS → Reset Module.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="trouble-card">
+        <div class="trouble-header">
+          <span class="t-icon">🔴</span>
+          <h4>Truck is not following the defined route</h4>
+        </div>
+        <div class="trouble-body">
+          <p><strong>Possible causes:</strong> Route file error, GPS inaccuracy, or obstacle in path causing re-routing.</p>
+          <ol>
+            <li>Confirm the <strong>route was saved correctly</strong> in the dashboard before starting the patrol.</li>
+            <li>Check for <strong>obstacles</strong> on the planned route that caused the truck to stop or divert.</li>
+            <li>Verify <strong>GPS accuracy</strong> is ±2m or better before starting (check Fleet panel).</li>
+            <li>Delete and <strong>redraw the route</strong> — avoid routes with very sharp turns (minimum turning radius is 0.5m).</li>
+            <li>Switch to <strong>Manual Override</strong> to reposition, then resume autonomous mode.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="callout info">
+        <span class="callout-icon">📞</span>
+        <div class="callout-body">
+          <strong>Still need help?</strong>
+          <p>Contact technical support at roadguard@ju.edu.jo or WhatsApp +962-XX-XXXXXXX. Include your Truck ID, a screenshot of the dashboard error, and a description of when the problem started.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SECTION 7: FAQ ── -->
+    <section class="doc-section" id="faq">
+      <div class="section-header">
+        <div class="section-num">07</div>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <span class="section-emoji">💬</span>
+      </div>
+
+      <p>Answers to the most commonly asked questions from operators and institutional users.</p>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          How accurate is the pothole detection system?
+          <span class="faq-arrow">▼</span>
+        </div>
+        <div class="faq-a">
+          <p>The system achieves a target detection accuracy of ≥90% under normal conditions. Accuracy is measured as the number of correct detections divided by the total number of tests. Sensor fusion (camera + ultrasonic) significantly reduces false positives. Accuracy may decrease slightly in heavy rain or very poor lighting — the system will flag these conditions on the dashboard.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Can the truck operate in rain or extreme weather?
+          <span class="faq-arrow">▼</span>
+        </div>
+        <div class="faq-a">
+          <p>Yes. The truck has an IP65 rating, meaning it is protected against dust and water jets from any direction. It can operate in light to moderate rain. However, operation is not recommended in heavy storms, flash flooding, or wind speeds above 50 km/h. The dashboard will display a weather caution alert when conditions are borderline.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          What happens if the truck loses internet connection during a patrol?
+          <span class="faq-arrow">▼</span>
+        </div>
+        <div class="faq-a">
+          <p>The truck continues its patrol and stores all detected fault data locally on the onboard microSD card. Once connectivity is restored, all data is automatically uploaded to the dashboard. If connection is lost for more than 10 minutes, the truck will safely return to its last known position and stop — this is a built-in safety feature.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          How long does it take to repair one pothole?
+          <span class="faq-arrow">▼</span>
+        </div>
+        <div class="faq-a">
+          <p>On average, the truck takes 3–8 minutes per pothole repair, depending on the size and depth. This includes navigation to the location, surface preparation, material dispensing, and the post-repair scan. For context, traditional manual repair with a crew takes 20–45 minutes per pothole with setup time included.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Who has the authority to approve repair reports?
+          <span class="faq-arrow">▼</span>
+        </div>
+        <div class="faq-a">
+          <p>Only users with "Approver" or "Administrator" roles assigned by your institution can approve repair reports. Regular operators with "Viewer" access can monitor the dashboard but cannot authorize repairs. Roles are managed in Settings → User Management. This ensures compliance with institutional authorization procedures.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          How often does the asphalt reservoir need to be refilled?
+          <span class="faq-arrow">▼</span>
+        </div>
+        <div class="faq-a">
+          <p>The reservoir holds approximately 5 kg of cold-mix asphalt, which is enough for 10–20 small potholes depending on their size. The dashboard shows the material level in real time. The truck will automatically pause patrol and alert the operator when material drops below 20%. Refilling takes approximately 5 minutes.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Can multiple trucks be managed from one dashboard?
+          <span class="faq-arrow">▼</span>
+        </div>
+        <div class="faq-a">
+          <p>Yes. The dashboard supports unlimited fleet management. Each truck appears as a separate entity on the map and in the Fleet panel. You can assign different trucks to different patrol zones simultaneously, and all repair reports are centralized in one queue. Fleet plans are available for institutions managing 5 or more trucks.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Is the data collected by the truck stored securely?
+          <span class="faq-arrow">▼</span>
+        </div>
+        <div class="faq-a">
+          <p>Yes. All data — including GPS coordinates, sensor readings, images, and repair records — is encrypted using TLS 1.3 during transmission and AES-256 at rest in the cloud. The system complies with ISO/IEC 27001 information security standards. Data is retained for 5 years for audit purposes and can only be accessed by authorized institutional users.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          What is the cost of repairing a pothole using this system?
+          <span class="faq-arrow">▼</span>
+        </div>
+        <div class="faq-a">
+          <p>The estimated cost per pothole repair using the RoadGuard system is 11–20 JOD, including distributed equipment cost, materials (cold-mix asphalt), labor, and fuel. This compares favorably to traditional repair methods which can cost 20–30 JOD per pothole when factoring in crew, equipment, and logistics costs.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SECTION 8: POLICIES ── -->
+    <section class="doc-section" id="policies">
+      <div class="section-header">
+        <div class="section-num">08</div>
+        <h2 class="section-title">Policies & Guidelines</h2>
+        <span class="section-emoji">📋</span>
+      </div>
+
+      <p>All operators and institutional users of the RoadGuard system are required to follow these policies. These guidelines ensure safe, legal, and ethical operation in compliance with Jordanian law and international engineering standards.</p>
+
+      <div class="policy-card">
+        <h3>⚠️ Safety Policy</h3>
+        <ul>
+          <li><strong>Public Road Deployment:</strong> The truck must only operate with appropriate road safety measures in place, including warning signs or cones placed at least 10 meters ahead of the truck's operating area.</li>
+          <li><strong>Speed Limit:</strong> Maximum autonomous operation speed is 8 km/h on public roads. Never override this limit.</li>
+          <li><strong>Supervision:</strong> A trained operator must be reachable via the dashboard at all times during autonomous operation — the system must not be left entirely unattended.</li>
+          <li><strong>Emergency Stop:</strong> All operators must know how to trigger the Emergency Stop from both the dashboard and the handheld remote before any deployment.</li>
+          <li><strong>Weather Conditions:</strong> Do not operate during heavy rain, storms, or visibility below 50 meters.</li>
+          <li><strong>Night Operation:</strong> Night operation is only permitted with additional lighting attachments installed on the truck.</li>
+        </ul>
+      </div>
+
+      <div class="policy-card">
+        <h3>🔒 Data & Privacy Policy</h3>
+        <ul>
+          <li><strong>Data Ownership:</strong> All road condition data, images, and repair records collected by the system are the property of the operating institution.</li>
+          <li><strong>Data Sharing:</strong> Data must not be shared with third parties without written authorization from the institution's designated data officer.</li>
+          <li><strong>Image Capture:</strong> The truck's camera is configured to capture road surfaces only — not pedestrians or vehicles. Do not modify the camera angle to capture individuals.</li>
+          <li><strong>Compliance:</strong> All data handling complies with ISO/IEC 27001 and Jordan's Telecommunications Law No. 13 of 1995.</li>
+          <li><strong>Access Control:</strong> Login credentials must not be shared. Each user must have their own account. Report compromised accounts immediately.</li>
+        </ul>
+      </div>
+
+      <div class="policy-card">
+        <h3>🏛️ Institutional Authorization Policy</h3>
+        <ul>
+          <li><strong>Approval Authority:</strong> Only designated Approvers may authorize repair operations. No repairs should be executed without institutional approval logged in the system.</li>
+          <li><strong>Audit Trail:</strong> Every decision (approve, reject, schedule) is recorded with the approver's name, timestamp, and reason. This record is immutable and cannot be deleted.</li>
+          <li><strong>Budget Compliance:</strong> Repair approvals must stay within the institution's allocated maintenance budget. The dashboard provides real-time spending tracking.</li>
+          <li><strong>Coordination:</strong> Before deploying on any road segment, coordinate with the relevant municipality or authority to ensure no conflicting maintenance work is scheduled.</li>
+        </ul>
+      </div>
+
+      <div class="policy-card">
+        <h3>🔧 Maintenance & Equipment Policy</h3>
+        <ul>
+          <li><strong>Routine Maintenance:</strong> A formal maintenance check must be performed every 30 days, including sensor calibration, battery health check, and mechanical inspection.</li>
+          <li><strong>Repair Material:</strong> Only approved cold-mix asphalt materials that comply with Jordanian road standards should be used. Do not substitute with unapproved materials.</li>
+          <li><strong>Firmware Updates:</strong> Apply all system firmware updates within 14 days of release. Outdated firmware may cause security vulnerabilities or performance degradation.</li>
+          <li><strong>Damage Reporting:</strong> Any physical damage to the truck must be reported to the system administrator within 24 hours and logged in the maintenance record.</li>
+        </ul>
+      </div>
+
+      <div class="policy-card">
+        <h3>⚖️ Legal & Regulatory Compliance</h3>
+        <ul>
+          <li><strong>Jordan Traffic Law No. 49 (2008):</strong> The truck must comply with all rules governing special-purpose vehicles on public roads, including the use of hazard lights during operation.</li>
+          <li><strong>Telecommunications Law No. 13 (1995):</strong> The 4G communication module must use a properly licensed SIM card from an authorized Jordanian telecommunications provider.</li>
+          <li><strong>IEEE Code of Ethics:</strong> All engineers operating or developing the system must uphold the IEEE Code of Ethics, particularly regarding public safety (Code 1) and honest reporting (Code 3).</li>
+          <li><strong>ISO 13473 Compliance:</strong> Road condition measurements and assessments must follow the pavement characterization standards defined in ISO 13473.</li>
+          <li><strong>ISO/IEC 27001:</strong> Information security practices must adhere to ISO/IEC 27001 standards for all data collected, transmitted, and stored by the system.</li>
+        </ul>
+      </div>
+
+      <div class="callout danger">
+        <span class="callout-icon">🚫</span>
+        <div class="callout-body">
+          <strong>Strictly Prohibited</strong>
+          <p>Modifying the truck's hardware or firmware without authorization · Operating on private property without owner consent · Using the system for surveillance or data collection beyond road conditions · Sharing institutional login credentials · Attempting to bypass the approval workflow for repairs.</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:1.5rem">
+        <p style="font-weight:700;font-size:0.88rem;margin-bottom:0.5rem;color:var(--text)">📄 Applicable Standards & Regulations</p>
+        <table class="data-table">
+          <thead><tr><th>Standard / Law</th><th>Scope</th><th>Applies To</th></tr></thead>
+          <tbody>
+            <tr><td>IEEE Code of Ethics</td><td>Engineering ethics & public safety</td><td>All operators & engineers</td></tr>
+            <tr><td>ISO 13473</td><td>Pavement surface measurement</td><td>Detection accuracy & reporting</td></tr>
+            <tr><td>ISO/IEC 27001</td><td>Information security management</td><td>Data handling & transmission</td></tr>
+            <tr><td>ISO 14001</td><td>Environmental management</td><td>Materials & fuel usage</td></tr>
+            <tr><td>ISO 22372</td><td>Emergency & incident management</td><td>Fault response procedures</td></tr>
+            <tr><td>IEC 60529 (IP65)</td><td>Environmental protection rating</td><td>Hardware design</td></tr>
+            <tr><td>Jordan Traffic Law No. 49 (2008)</td><td>Vehicle operation on public roads</td><td>All field deployments</td></tr>
+            <tr><td>Telecom Law No. 13 (1995)</td><td>Wireless communication regulation</td><td>4G module & data transmission</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div><!-- /content -->
+</main>
+
+<script>
+// ── FAQ TOGGLE ──
+function toggleFaq(el) {
+  const item = el.parentElement;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// ── NAV ACTIVE ──
+function setActive(el) {
+  document.querySelectorAll('.nav-item').forEach(a => a.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ── SCROLL SPY ──
+const sections = document.querySelectorAll('.doc-section');
+const navItems = document.querySelectorAll('.nav-item');
+
+const mainEl = document.querySelector('.main');
+
+mainEl.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    const top = s.offsetTop - 120;
+    if (mainEl.scrollTop >= top) current = s.id;
+  });
+  navItems.forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+});
+
+// ── REVEAL ON SCROLL ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.05, root: mainEl });
+
+sections.forEach(s => observer.observe(s));
+
+// ── SEARCH FILTER ──
+function filterNav(val) {
+  const v = val.toLowerCase();
+  navItems.forEach(item => {
+    const text = item.textContent.toLowerCase();
+    item.style.opacity = text.includes(v) || v === '' ? '1' : '0.3';
+  });
+}
+
+// ── SMOOTH SCROLL FOR HASH LINKS ──
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // also scroll the main container
+      const offset = target.offsetTop - 80;
+      mainEl.scrollTo({ top: offset, behavior: 'smooth' });
+    }
+  });
+});
+</script>
+
+</body>
+</html>
